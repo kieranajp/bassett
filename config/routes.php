@@ -4,4 +4,5 @@ use Bassett\Application\Controller\HomeController;
 
 return [
     [ 'GET', '/',  [ HomeController::class, 'index' ] ],
+    [ 'GET', '/authenticate',  [ HomeController::class, 'authenticate' ] ],
 ];

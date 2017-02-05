@@ -2,19 +2,44 @@
 
 namespace Bassett\Application\Controller;
 
-use Github\Client;
+use Aura\Session\Segment;
 use League\Plates\Engine as Plates;
+use Psr\Http\Message\ResponseInterface;
+use League\OAuth2\Client\Provider\Github;
 use Psr\Http\Message\ServerRequestInterface;
 
 class HomeController
 {
-    public function index(Plates $plates)
+    public function index(Plates $plates, Segment $session)
     {
-        return $plates->render('test', []);
+        if (! $session->get('token')) {
+            header('Location: /authenticate');
+            return;
+        }
+
+        return $plates->render('test', [ 'token' => $session->get('token') ]);
     }
 
-    public function authenticate(Client $client)
+    public function authenticate(ServerRequestInterface $request, Segment $session)
     {
-        $client->authenticate(getenv('GITHUB_CLIENT_ID'), getenv('GITHUB_CLIENT_SECRET'), Client::AUTH_URL_CLIENT_ID);
+        $provider = new Github([
+            'clientId'          => getenv('GITHUB_CLIENT_ID'),
+            'clientSecret'      => getenv('GITHUB_CLIENT_SECRET'),
+            'redirectUri'       => getenv('GITHUB_CALLBACK_URL')
+        ]);
+
+        if (! isset($request->getQueryParams()['code'])) {
+            header('Location: ' . $provider->getAuthorizationUrl());
+            return;
+        }
+
+        $token = $provider->getAccessToken('authorization_code', [
+            'code' => $request->getQueryParams()['code']
+        ]);
+
+        $session->set('token', $token->getToken());
+
+        header('Location: /');
+        return;
     }
 }

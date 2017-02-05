@@ -2,9 +2,11 @@
 
 namespace Bassett\Infrastructure\ServiceProvider;
 
+use Aura\Session\Segment;
 use League\Plates\Engine;
 use League\Fractal\Manager;
 use Zend\Diactoros\Response;
+use Aura\Session\SessionFactory;
 use Psr\Http\Message\ResponseInterface;
 use Zend\Diactoros\Response\SapiEmitter;
 use Zend\Diactoros\ServerRequestFactory;
@@ -26,6 +28,7 @@ class ApplicationServiceProvider extends AbstractServiceProvider
         'emitter',
         'fractal',
         Engine::class,
+        Segment::class,
         ResponseInterface::class,
         ServerRequestInterface::class
     ];
@@ -47,6 +50,10 @@ class ApplicationServiceProvider extends AbstractServiceProvider
         });
 
         $this->getContainer()->share(ResponseInterface::class, Response::class);
+
+        $this->getContainer()->share(Segment::class, function () {
+            return (new SessionFactory)->newInstance($_COOKIE)->getSegment('Bassett');
+        });
 
         $this->getContainer()->share(ServerRequestInterface::class, function () {
             return ServerRequestFactory::fromGlobals($_SERVER, $_GET, $_POST, $_COOKIE, $_FILES);

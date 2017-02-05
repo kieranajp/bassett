@@ -13,7 +13,6 @@ define('APP_DIR', __DIR__ . '/..');
 
 $providers = require_once '../config/services.php';
 $routes    = require_once '../config/routes.php';
-$apiRoutes = require_once '../config/api-routes.php';
 $container = new Container;
 
 // Load service providers
