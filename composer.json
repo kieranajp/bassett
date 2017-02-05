@@ -1,0 +1,28 @@
+{
+    "name": "kieranajp/bassett",
+    "type": "project",
+    "require": {
+        "knplabs/github-api": "^2.0",
+        "php-http/guzzle6-adapter": "^1.1",
+        "league/route": "^2.0",
+        "league/fractal": "^0.15.0",
+        "zendframework/zend-diactoros": "^1.3",
+        "league/plates": "^3.3"
+    },
+    "require-dev": {
+        "kahlan/kahlan": "^3.1",
+        "larapack/dd": "^1.1"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Bassett\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Kieran Patel",
+            "email": "me@kieranajp.co.uk"
+        }
+    ]
+}

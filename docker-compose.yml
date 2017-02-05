@@ -1,0 +1,22 @@
+---
+version: '2'
+services:
+
+    nginx:
+        build: ./docker/nginx
+        ports:
+            - "8888:80"
+        environment:
+            PHP_FPM_URI: php-fpm:9000
+        links:
+            - php-fpm
+
+    php-fpm:
+        build: ./docker/php-fpm
+        volumes:
+            - ./:/server/http
+        environment:
+            SERVICE_NAME: 'bassett'
+            DEBUG: 'true'
+            GITHUB_CLIENT_ID: 'xxx'
+            GITHUB_CLIENT_SECRET: 'yyy'
