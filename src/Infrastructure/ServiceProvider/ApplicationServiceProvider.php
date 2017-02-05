@@ -2,6 +2,7 @@
 
 namespace Bassett\Infrastructure\ServiceProvider;
 
+use GuzzleHttp\Client;
 use Aura\Session\Segment;
 use League\Plates\Engine;
 use League\Fractal\Manager;
@@ -27,6 +28,7 @@ class ApplicationServiceProvider extends AbstractServiceProvider
     protected $provides = [
         'emitter',
         'fractal',
+        Client::class,
         Engine::class,
         Segment::class,
         ResponseInterface::class,
@@ -44,6 +46,8 @@ class ApplicationServiceProvider extends AbstractServiceProvider
         $this->getContainer()->share('emitter', SapiEmitter::class);
 
         $this->getContainer()->share('fractal', Manager::class);
+
+        $this->getContainer()->share(Client::class, Client::class);
 
         $this->getContainer()->share(Engine::class, function () {
             return new Engine(APP_DIR . '/views');

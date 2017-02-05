@@ -8,7 +8,8 @@
         "league/plates": "^3.3",
         "league/oauth2-client": "^2.2",
         "league/oauth2-github": "^2.0",
-        "aura/session": "^2.1"
+        "aura/session": "^2.1",
+        "guzzlehttp/guzzle": "^6.2"
     },
     "require-dev": {
         "kahlan/kahlan": "^3.1",

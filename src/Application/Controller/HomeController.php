@@ -17,7 +17,7 @@ class HomeController
             return;
         }
 
-        return $plates->render('test', [ 'token' => $session->get('token') ]);
+        return $plates->render('index', [ 'token' => $session->get('token') ]);
     }
 
     public function authenticate(ServerRequestInterface $request, Segment $session)
